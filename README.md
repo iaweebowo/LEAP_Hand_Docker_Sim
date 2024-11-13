@@ -26,7 +26,7 @@ git clone https://github.com/NVIDIA-ISAAC-ROS/isaac_ros_common.git
 ### Obtain the repository
 ```
 cd ~/workspaces/isaac_ros-dev/src
-git clone https://github.com/kczttm/LEAP_Hand_Suite
+git clone https://github.com/iaweebowo/LEAP_Hand_Suite
 cd LEAP_Hand_Suite
 ```
 ### Prepare to run the docker composition
@@ -38,18 +38,49 @@ cp ./.isaac_ros_common-config ~
 If you have a Kinova arm, consider using our kinova controll library posted [here](https://github.com/kczttm/ros2_kinova_ws).
 Otherwise please configure your docker environment following the guild from [here](https://nvidia-isaac-ros.github.io/concepts/docker_devenv/index.html#development-environment).
 
+### Install Isaacgym & LEAP Hand Sim
+1. Install Isaacgym from [this link](https://developer.nvidia.com/isaac-gym)
+
+2. Clone [LEAP_Hand_Sim](https://github.com/leap-hand/LEAP_Hand_Sim) in the {ISAAC_ROS_WS}src/isaacgym directory
+
+3. Replace the Dockerfile and run.sh in {ISAAC_ROS_WS}src/isaacgym with the Dockerfile and run.sh in this repository
+
+### Configure your device
+1. Do
+```
+sudo nano /etc/nvidia-container-runtime/config.toml
+```
+And change no-cgroups from true to false
+```
+no-cgroups = false
+```
+2. Restart your Docker daemon:
+```
+sudo systemctl restart docker
+```
+3. Test that it works:
+```
+sudo docker run --rm --runtime=nvidia --gpus all ubuntu nvidia-smi
+```
+4. You will need need to find your root window ID. This can be done by running:
+```
+xdpyinfo
+```
+And it should be listed under "screen #0" next to "root window id:". Note down the hex value (ex. 0x1111).
 
 ## Use Guide
 ### Entering Docker
 We will add the following shortcut to build a docker env according to `~/.isaac_ros_common-config`
 ```
-echo "alias ldb='cd ${ISAAC_ROS_WS}src/isaac_ros_common && ./scripts/run_dev.sh'" >> ~/.bashrc
-echo "alias ld='cd ${ISAAC_ROS_WS}src/isaac_ros_common && ./scripts/run_dev.sh --skip_image_build'" >> ~/.bashrc
+echo "alias bd='cd ${ISAAC_ROS_WS}src/isaacgym && ./docker/build.sh'" >> ~/.bashrc
+echo "alias ld='cd ${ISAAC_ROS_WS}src/isaacgym && ./docker/run.sh ROOT_WINDOW_ID_HERE'" >> ~/.bashrc
 ```
-Note that `ldb` will build the docker first then launch it. `ld` will just launch what has already been built.
+Make sure you replace ROOT_WINDOW_ID_HERE in the second command with your root window ID found during configuration.
+Note that `bd` will build the docker first. `ld` will just launch what has already been built.
 
 Now we start by with a fresh build:
 ```
 source ~/.bashrc
-ldb
+bd
+ld
 ```

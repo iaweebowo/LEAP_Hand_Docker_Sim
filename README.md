@@ -79,6 +79,15 @@ echo "alias ld='cd ${ISAAC_ROS_WS}src/isaacgym && ./docker/run.sh ROOT_WINDOW_ID
 Make sure you replace ROOT_WINDOW_ID_HERE in the second command with your root window ID found during configuration.
 Note that `bd` will build the docker first. `ld` will just launch what has already been built.
 
+Ensure that you have given sudo permission to docker. If you have not yet, try this [link](https://docs.docker.com/engine/install/linux-postinstall/).
+
+Please run:
+```
+chmod +x ./docker/run.sh
+```
+
+This ensures that the file is accessible. 
+
 Now we start by with a fresh build:
 ```
 source ~/.bashrc

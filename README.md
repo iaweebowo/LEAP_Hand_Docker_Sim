@@ -41,7 +41,7 @@ Otherwise please configure your docker environment following the guild from [her
 ### Install Isaacgym & LEAP Hand Sim
 1. Install Isaacgym from [this link](https://developer.nvidia.com/isaac-gym)
 
-2. Clone [LEAP_Hand_Sim](https://github.com/leap-hand/LEAP_Hand_Sim) in the {ISAAC_ROS_WS}src/isaacgym directory
+2. Clone [LEAP_Hand_Sim](https://github.com/leap-hand/LEAP_Hand_Sim) in the {ISAAC_ROS_WS}src/isaacgym directory.
 Note: {ISAAC_ROS_WS} is the path preceeding your src directory, usually in workspaces/isaac_ros-dev/
 
 3. Replace the Dockerfile and run.sh in {ISAAC_ROS_WS}src/isaacgym/docker with the Dockerfile and run.sh in this repository
